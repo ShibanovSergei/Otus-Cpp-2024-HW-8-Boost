@@ -14,7 +14,10 @@ jobs:
         with:
           submodules: true
 
-      - run: sudo apt-get update && sudo apt-get install coreutils libgtest-dev libboost-dev libboost-filesystem-dev libboost-system-dev libboost-program-options-dev -y
+      - run: |
+           sudo apt-get update
+           sudo apt-get install -y libboost-all-dev
+
       - name: Set up CMake
         run: cmake . -DPATCH_VERSION=${{ github.run_number }}
 
@@ -45,4 +48,3 @@ jobs:
           asset_path: ./bayan-0.0.${{ github.run_number }}-Linux.deb
           asset_name: bayan-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
-
