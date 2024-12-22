@@ -7,6 +7,8 @@ project(Bayan VERSION ${PROJECT_VERSION})
 
 #configure_file(version.h.in version.h)
 
+find_package(Boost COMPONENTS program_options filesystem regex REQUIRED)
+
 add_executable (Bayan "main.cpp" "main.h")
 
 set_target_properties(Bayan PROPERTIES
