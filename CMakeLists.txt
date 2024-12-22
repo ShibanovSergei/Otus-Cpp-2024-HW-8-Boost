@@ -3,29 +3,29 @@
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
-project(HW_08_Boost VERSION ${PROJECT_VERSION})
+project(Bayan VERSION ${PROJECT_VERSION})
 
 #configure_file(version.h.in version.h)
 
-add_executable (HW_08_Boost "main.cpp" "main.h")
+add_executable (Bayan "main.cpp" "main.h")
 
-set_target_properties(HW_08_Boost PROPERTIES
+set_target_properties(Bayan PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
-target_include_directories(HW_08_Boost PRIVATE "${CMAKE_BINARY_DIR}")
+target_include_directories(Bayan PRIVATE "${CMAKE_BINARY_DIR}")
 
 if (MSVC)
-    target_compile_options(HW_08_Boost PRIVATE
+    target_compile_options(Bayan PRIVATE
         /W4
     )
 else ()
-    target_compile_options(HW_08_Boost PRIVATE
+    target_compile_options(Bayan PRIVATE
         -Wall -Wextra -pedantic
     )
 endif()
 
-install(TARGETS HW_08_Boost RUNTIME DESTINATION bin)
+install(TARGETS Bayan RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
