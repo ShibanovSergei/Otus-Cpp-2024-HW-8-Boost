@@ -7,7 +7,7 @@ on:
       - feature/github_actions
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -48,3 +48,24 @@ jobs:
           asset_path: ./bayan-0.0.${{ github.run_number }}-Linux.deb
           asset_name: bayan-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: choco install boost-msvc-14.2
+
+      - name: Configure CMake
+        run: cmake -B build -G "Visual Studio 16 2019"
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Upload Windows executable
+        uses: actions/upload-artifact@v3
+        with:
+          name: bayan-windows-${{ github.run_number }}.exe
+          path: build/Release/bayan.exe
