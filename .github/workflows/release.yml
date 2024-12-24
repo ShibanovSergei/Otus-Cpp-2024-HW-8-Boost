@@ -30,8 +30,8 @@ jobs:
         run: |
            EXECUTABLE_PATH="${{ github.workspace }}/bayan"
            echo "Executable path: $EXECUTABLE_PATH"
-           chmod +x EXECUTABLE_PATH
-           $EXECUTABLE_PATH
+           chmod +x "${EXECUTABLE_PATH}"
+           "${EXECUTABLE_PATH}"
 
       - name: Create package
         run: cmake --build . --target package
