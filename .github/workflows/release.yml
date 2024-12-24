@@ -30,7 +30,8 @@ jobs:
         run: find / -name bayan 2>/dev/null
 
       - name: Run the application
-        run: ./build/bayan
+        run: chmod +x /home/runner/work/Otus-Cpp-2024-HW-8-Boost/Otus-Cpp-2024-HW-8-Boost/bayan
+        run: /home/runner/work/Otus-Cpp-2024-HW-8-Boost/Otus-Cpp-2024-HW-8-Boost/bayan
 
       - name: Create package
         run: cmake --build . --target package
