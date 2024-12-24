@@ -27,6 +27,8 @@ else ()
     )
 endif()
 
+target_link_libraries(bayan PRIVATE Boost::program_options)
+
 install(TARGETS bayan RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
