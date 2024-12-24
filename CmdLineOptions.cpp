@@ -80,7 +80,7 @@ std::ostream& CmdLineOptions::operator<<(std::ostream& os)
         << "depth: " << (short)_scanLevel << std::endl
         << "min-size: " << _minFileSize << std::endl
         << "file-masks: ";
-    os << out_string_s(os, _fileMasks) << std::endl
+    out_string_s(os, _fileMasks) << std::endl
         << "block-size: " << _blockSize << std::endl
         << "algorithm: " << (short)_hashAlgorithm << std::endl;
 
