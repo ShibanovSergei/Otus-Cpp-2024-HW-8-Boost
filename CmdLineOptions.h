@@ -19,6 +19,7 @@ enum class HashAlgorithm
 
 struct CmdLineOptions
 {
+private:
     string_s       _includedDirs;
     string_s       _excludedDirs;
     ScanLevel      _scanLevel;
@@ -27,5 +28,11 @@ struct CmdLineOptions
     unsigned short _blockSize;
     HashAlgorithm  _hashAlgorithm;
 
+    std::ostream& out_string_s(std::ostream& os, string_s strs);
+
+public:
     bool FillFromArgs(int argc, char** argv);
+    std::ostream& operator<<(std::ostream& os);
 };
+
+

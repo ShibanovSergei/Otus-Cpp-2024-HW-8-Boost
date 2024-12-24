@@ -34,9 +34,9 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
             ("include-dirs,i", po::value<string_s>()->default_value(string_s{ "." }, ".")->multitoken()->composing(), "Including to search directories, can be multiple. Default is current folder")
             ("exclude-dirs,e", po::value<string_s>()->multitoken()->composing(), "Excluded to search directories, can be multiple")
             ("depth,d", po::value<short>()->default_value(0)->notifier(checkDepthValue), "Scan depth, 1 - all directories, 0 - current folder only. Default value is 0")
-            ("min-size,m", po::value<int>()->default_value(1)->notifier(checkSizeValue), "Minimum size of the processed file in bytes. Default value is 1")
+            ("min-size,m", po::value<unsigned>()->default_value(1)->notifier(checkSizeValue), "Minimum size of the processed file in bytes. Default value is 1")
             ("file-masks,f", po::value<string_s>()->multitoken()->composing(), "Masks for the files participating in comparison")
-            ("block-size,b", po::value<int>()->default_value(256)->notifier(checkSizeValue), "The size in bytes of the block to read the files with. Default value is 256")
+            ("block-size,b", po::value<unsigned short>()->default_value(256)->notifier(checkSizeValue), "The size in bytes of the block to read the files with. Default value is 256")
             ("algorithm,a", po::value<std::string>()->default_value("CRC32")->notifier(checkAlgorithmValue), "Hashing algorithm to hash file blocks. Default value is CRC32");
 
         po::variables_map vm;
@@ -47,6 +47,21 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
             std::cout << desc << "\n";
             return false;
         }
+
+        _includedDirs = vm["include-dirs"].as<string_s>();
+        if (vm.count("exclude-dirs"))
+            _excludedDirs = vm["exclude-dirs"].as<string_s>();
+        if (vm.count("file-masks"))
+            _fileMasks = vm["file-masks"].as<string_s>();
+
+        _scanLevel = ScanLevel(vm["depth"].as<short>());
+        _minFileSize = vm["min-size"].as<unsigned>();
+        _blockSize = vm["block-size"].as<unsigned short>();
+        
+        if (vm["algorithm"].as<std::string>() == "CRC32")
+            _hashAlgorithm = HashAlgorithm::CRC32;
+        if (vm["algorithm"].as<std::string>() == "MD5")
+            _hashAlgorithm = HashAlgorithm::MD5;
     }
     catch (const boost::program_options::error& ex)
     {
@@ -54,4 +69,34 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
     }
 
     return true;
+}
+
+std::ostream& CmdLineOptions::operator<<(std::ostream& os)
+{
+    os  << "include-dirs: " << PrintVector(_includedDirs) << "\n"
+        << "exclude-dirs: " << PrintVector(_excludedDirs) << "\n"
+        << "depth: " << (short)_scanLevel << "\n"
+        << "min-size: " << _minFileSize << "\n"
+        << "file-masks: " << PrintVector(_fileMasks) << "\n"
+        << "block-size: " << _blockSize << "\n"
+        << "algorithm: " << (short)obj._hashAlgorithm << std::endl;
+
+    return os;
+}
+
+std::ostream& CmdLineOptions::out_string_s(std::ostream& os, string_s strs)
+{
+    if (strs.empty())
+    {
+        os << std::string("<null>");
+        return os;
+    }
+
+    auto penultimate = std::prev(strs.end());
+    for (auto it = strs.begin(); it != penultimate; ++it)
+        os << *it << ", ";
+
+    os << *penultimate;
+
+    return os;
 }
