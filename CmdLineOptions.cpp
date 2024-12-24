@@ -75,7 +75,7 @@ std::ostream& CmdLineOptions::operator<<(std::ostream& os)
 {
     os << "include-dirs: "; 
     out_string_s(os, _includedDirs);
-    os << endl;
+    os << std::endl;
 
         //<< "exclude-dirs: " << out_string_s(os, _excludedDirs) << "\n"
         //<< "depth: " << (short)_scanLevel << "\n"
