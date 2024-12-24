@@ -26,9 +26,6 @@ jobs:
       - name: Build project
         run: cmake --build .
 
-      - name: Find executable
-        run: find / -name bayan 2>/dev/null
-
       - name: Run the application
         run: |
            chmod +x /home/runner/work/Otus-Cpp-2024-HW-8-Boost/Otus-Cpp-2024-HW-8-Boost/bayan
