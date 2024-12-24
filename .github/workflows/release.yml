@@ -57,6 +57,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install Visual Studio Build Tools
+        run: |
+          choco install visualstudio2019buildtools -y
+          choco install visualstudio2019-workload-vctools -y
+
       - name: Install dependencies
         run: choco install boost-msvc-14.2
 
