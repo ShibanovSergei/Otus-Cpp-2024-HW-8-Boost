@@ -9,7 +9,7 @@ project(bayan VERSION ${PROJECT_VERSION})
 
 find_package(Boost REQUIRED COMPONENTS system filesystem program_options)
 
-add_executable (bayan "main.cpp" "main.h")
+add_executable (bayan "main.cpp" "main.h" "CmdLineOptions.cpp" "CmdLineOptions.h")
 
 set_target_properties(bayan PROPERTIES
     CXX_STANDARD 20
