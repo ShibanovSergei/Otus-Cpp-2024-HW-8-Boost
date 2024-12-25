@@ -65,7 +65,13 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
     }
     catch (const boost::program_options::error& ex)
     {
-        std::cout << "Error while setuping: " << ex.what() << '\n';
+        std::cerr << "Error while setuping: " << ex.what() << std::endl;
+        return false;
+    }
+    catch(const std::exception& ex)
+    {
+        std::cerr << "Error while setuping: " << ex.what() << std::endl;
+        return false;
     }
 
     return true;
