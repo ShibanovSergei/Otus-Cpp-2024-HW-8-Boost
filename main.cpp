@@ -9,9 +9,12 @@ int main(int argc, char** argv)
 	CmdLineOptions cmdLineOptions;
 
 	if (cmdLineOptions.FillFromArgs(argc, argv) == false)
+	{
+		cout << "cmdLineOptions.FillFromArgs return false." << endl;
 		return 1;
+	}
 
-	std::cout << "The following options are set" << endl;
+	cout << "The following options are set" << endl;
 	cmdLineOptions.ShowOptions(std::cout);
 
 	return 0;
