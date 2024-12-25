@@ -71,9 +71,9 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
     return true;
 }
 
-std::ostream& CmdLineOptions::operator<<(std::ostream& os)
+void CmdLineOptions::ShowOptions(std::ostream& os)
 {
-    os << "include-dirs: "; 
+    os << "include-dirs: ";
     out_string_s(os, _includedDirs) << std::endl
         << "exclude-dirs: ";
     out_string_s(os, _excludedDirs) << std::endl
@@ -83,8 +83,6 @@ std::ostream& CmdLineOptions::operator<<(std::ostream& os)
     out_string_s(os, _fileMasks) << std::endl
         << "block-size: " << _blockSize << std::endl
         << "algorithm: " << (short)_hashAlgorithm << std::endl;
-
-    return os;
 }
 
 std::ostream& CmdLineOptions::out_string_s(std::ostream& os, string_s strs)

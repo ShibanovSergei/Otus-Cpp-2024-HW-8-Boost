@@ -32,7 +32,7 @@ private:
 
 public:
     bool FillFromArgs(int argc, char** argv);
-    std::ostream& operator<<(std::ostream& os);
+    void ShowOptions(std::ostream& os);
 };
 
 
