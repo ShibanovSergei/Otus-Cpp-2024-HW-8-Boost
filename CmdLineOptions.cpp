@@ -54,9 +54,9 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
         if (vm.count("file-masks"))
             _fileMasks = vm["file-masks"].as<string_s>();
 
-        _scanLevel = ScanLevel(vm["depth"].as<short>());
-        _minFileSize = vm["min-size"].as<unsigned>();
-        _blockSize = vm["block-size"].as<unsigned short>();
+        _scanLevel = ScanLevel(vm["depth"].as<int>());
+        _minFileSize = vm["min-size"].as<int>();
+        _blockSize = vm["block-size"].as<int>();
         
         if (vm["algorithm"].as<std::string>() == "CRC32")
             _hashAlgorithm = HashAlgorithm::CRC32;
