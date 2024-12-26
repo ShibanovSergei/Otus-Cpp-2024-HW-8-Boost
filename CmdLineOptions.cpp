@@ -68,6 +68,11 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
         std::cerr << "Error while setuping: " << ex.what() << std::endl;
         return false;
     }
+    catch (const po::validation_error& ex)
+    {
+        std::cerr << "Validation error: " << ex.what() << std::endl;
+        return false;
+    }
     catch(const std::exception& ex)
     {
         std::cerr << "Error while setuping: " << ex.what() << std::endl;
