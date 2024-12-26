@@ -25,7 +25,7 @@ private:
     ScanLevel      _scanLevel;
     unsigned       _minFileSize;
     string_s       _fileMasks;
-    unsigned short _blockSize;
+    unsigned       _blockSize;
     HashAlgorithm  _hashAlgorithm;
 
     std::ostream& out_string_s(std::ostream& os, string_s strs);

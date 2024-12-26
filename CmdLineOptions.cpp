@@ -33,10 +33,10 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
             ("help,h", "help message")
             ("include-dirs,i", po::value<string_s>()->default_value(string_s{ "." }, ".")->multitoken()->composing(), "Including to search directories, can be multiple. Default is current folder")
             ("exclude-dirs,e", po::value<string_s>()->multitoken()->composing(), "Excluded to search directories, can be multiple")
-            ("depth,d", po::value<short>()->default_value(0)->notifier(checkDepthValue), "Scan depth, 1 - all directories, 0 - current folder only. Default value is 0")
-            ("min-size,m", po::value<unsigned>()->default_value(1)->notifier(checkSizeValue), "Minimum size of the processed file in bytes. Default value is 1")
+            ("depth,d", po::value<int>()->default_value(0)->notifier(checkDepthValue), "Scan depth, 1 - all directories, 0 - current folder only. Default value is 0")
+            ("min-size,m", po::value<int>()->default_value(1)->notifier(checkSizeValue), "Minimum size of the processed file in bytes. Default value is 1")
             ("file-masks,f", po::value<string_s>()->multitoken()->composing(), "Masks for the files participating in comparison")
-            ("block-size,b", po::value<unsigned short>()->default_value(256)->notifier(checkSizeValue), "The size in bytes of the block to read the files with. Default value is 256")
+            ("block-size,b", po::value<int>()->default_value(256)->notifier(checkSizeValue), "The size in bytes of the block to read the files with. Default value is 256")
             ("algorithm,a", po::value<std::string>()->default_value("CRC32")->notifier(checkAlgorithmValue), "Hashing algorithm to hash file blocks. Default value is CRC32");
 
         po::variables_map vm;
