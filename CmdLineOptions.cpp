@@ -63,14 +63,14 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
         if (vm["algorithm"].as<std::string>() == "MD5")
             _hashAlgorithm = HashAlgorithm::MD5;
     }
-    catch (const boost::program_options::error& ex)
-    {
-        std::cerr << "Error while setuping: " << ex.what() << std::endl;
-        return false;
-    }
     catch (const po::validation_error& ex)
     {
         std::cerr << "Validation error: " << ex.what() << std::endl;
+        return false;
+    }
+    catch (const po::error& ex)
+    {
+        std::cerr << "Error while setuping: " << ex.what() << std::endl;
         return false;
     }
     catch(const std::exception& ex)

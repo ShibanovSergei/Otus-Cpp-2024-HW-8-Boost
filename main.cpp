@@ -7,6 +7,13 @@ using namespace std;
 int main(int argc, char** argv)
 {
 	cout << "HW 08." << endl;
+
+	if (!BlockHashGetter::Tests())
+	{
+		cerr << "BlockHashGetter::Tests() fails" << endl;
+		return 1;
+	}
+
 	CmdLineOptions cmdLineOptions;
 
 	if (cmdLineOptions.FillFromArgs(argc, argv) == false)
@@ -18,11 +25,7 @@ int main(int argc, char** argv)
 	cout << "The following options are set" << endl;
 	cmdLineOptions.ShowOptions(std::cout);
 
-	if (!BlockHashGetter::Tests())
-	{
-		cerr << "BlockHashGetter::Tests() fails" << endl;
-		return 1;
-	}
+
 
 	return 0;
 }

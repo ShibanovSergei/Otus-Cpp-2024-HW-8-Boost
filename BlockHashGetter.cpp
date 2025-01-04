@@ -5,7 +5,10 @@
 
 namespace BlockHashGetter
 {
-    typedef std::vector<uint8_t> hashBytes;
+    constexpr uint8_t crc32_hash_len = 4;
+    constexpr uint8_t md5_hash_len = 16;
+
+    using hashBytes = std::vector<uint8_t>;
 
     hashBytes Calculate_crc32(const std::vector<uint8_t>& dataBlock)
     {
@@ -33,6 +36,7 @@ namespace BlockHashGetter
 
 
         // For crc32
+        // ------------------------------
         hashBytes crc32_hash = Calculate_crc32(data);
         if (crc32_hash.size() != 4)
             return false;
@@ -48,6 +52,7 @@ namespace BlockHashGetter
 
 
         // For md5
+        // ---------------------------------
         hashBytes md5_hash = Calculate_md5(data);
         if (md5_hash.size() != 16)
             return false;
