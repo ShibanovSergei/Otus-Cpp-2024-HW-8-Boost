@@ -62,6 +62,8 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
             _hashAlgorithm = HashAlgorithm::CRC32;
         if (vm["algorithm"].as<std::string>() == "MD5")
             _hashAlgorithm = HashAlgorithm::MD5;
+
+        RemoveIncludeDirsThatContainsInExlude();
     }
     catch (const po::validation_error& ex)
     {
@@ -94,6 +96,20 @@ void CmdLineOptions::ShowOptions(std::ostream& os)
     out_string_s(os, _fileMasks) << std::endl
         << "block-size: " << _blockSize << std::endl
         << "algorithm: " << (short)_hashAlgorithm << std::endl;
+}
+
+void CmdLineOptions::RemoveIncludeDirsThatContainsInExlude()
+{
+    _includedDirs.erase(
+        std::remove_if(
+            _includedDirs.begin(),
+            _includedDirs.end(),
+            [&_excludedDirs = this->_excludedDirs](const std::string& dir)
+            {
+                return std::find(_excludedDirs.begin(), _excludedDirs.end(), dir) != _excludedDirs.end();
+            }),
+        _includedDirs.end()
+    );
 }
 
 std::ostream& CmdLineOptions::out_string_s(std::ostream& os, string_s strs)
