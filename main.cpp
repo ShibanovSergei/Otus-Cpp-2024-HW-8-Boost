@@ -22,9 +22,6 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	cout << "The following options are set" << endl;
-	cmdLineOptions.ShowOptions(std::cout);
-
 
 
 	return 0;

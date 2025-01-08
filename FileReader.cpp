@@ -1,20 +1,20 @@
-#include "FileHandler.h"
+#include "FileReader.h"
 
-FileHandler::FileHandler(const std::string& path, unsigned blockSize, HashCalculationFunctionPtr hashCalcPtr) :
-    _path(path),
-    _fileStream(_path)
+FileReader::FileReader(const std::string& path, unsigned blockSize, uintmax_t fileSize, HashCalculationFunctionPtr hashCalcPtr) :
+    _path(path)    
 {
-    if (!_fileStream.is_open())
-    {
-        throw std::runtime_error("Failed to open file: " + _path);
-    }
-
+    _fileSize = fileSize;
     _blockSize = blockSize;
     _isFullyReaded = false;
     _hashCalculationFunc = hashCalcPtr;
 }
 
-void FileHandler::ReadBlock()
+std::string FileReader::ShowInfo()
+{
+    return std::string(_path + "   " + _fileSize);
+}
+
+void FileReader::ReadBlock()
 {
     if (!_isFullyReaded)    // For additional check
     {        

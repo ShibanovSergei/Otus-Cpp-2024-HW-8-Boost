@@ -14,7 +14,7 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
                 if (value != 0 && value != 1) throw po::validation_error(po::validation_error::invalid_option_value, "depth");
             };
 
-        auto checkSizeValue = [](const int& value)
+        auto checkSizeValue = [](const unsigned& value)
             {
                 if (value < 1) throw po::validation_error(po::validation_error::invalid_option_value, "block-size");
             };
@@ -34,7 +34,7 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
             ("include-dirs,i", po::value<string_s>()->default_value(string_s{ "." }, ".")->multitoken()->composing(), "Including to search directories, can be multiple. Default is current folder")
             ("exclude-dirs,e", po::value<string_s>()->multitoken()->composing(), "Excluded to search directories, can be multiple")
             ("depth,d", po::value<uint8_t>()->default_value(0)->notifier(checkDepthValue), "Scan depth, 1 - all directories, 0 - current folder only. Default value is 0")
-            ("min-size,m", po::value<int>()->default_value(1)->notifier(checkSizeValue), "Minimum size of the processed file in bytes. Default value is 1")
+            ("min-size,m", po::value<unsigned>()->default_value(1)->notifier(checkSizeValue), "Minimum size of the processed file in bytes. Default value is 1")
             ("file-masks,f", po::value<string_s>()->multitoken()->composing(), "Masks for the files participating in comparison")
             ("block-size,b", po::value<int>()->default_value(256)->notifier(checkSizeValue), "The size in bytes of the block to read the files with. Default value is 256")
             ("algorithm,a", po::value<std::string>()->default_value("CRC32")->notifier(checkAlgorithmValue), "Hashing algorithm to hash file blocks. Default value is CRC32");
@@ -55,13 +55,17 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
             _fileMasks = vm["file-masks"].as<string_s>();
 
         _scanLevel = ScanLevel(vm["depth"].as<uint8_t>());
-        _minFileSize = vm["min-size"].as<int>();
+        _minFileSize = vm["min-size"].as<unsigned>();
         _blockSize = vm["block-size"].as<int>();
         
         if (vm["algorithm"].as<std::string>() == "CRC32")
             _hashAlgorithm = HashAlgorithm::CRC32;
         if (vm["algorithm"].as<std::string>() == "MD5")
             _hashAlgorithm = HashAlgorithm::MD5;
+
+        //ShowOptions(std::cout);
+
+        RemoveIncludeDirsThatContainsInExlude();
     }
     catch (const po::validation_error& ex)
     {
@@ -94,6 +98,20 @@ void CmdLineOptions::ShowOptions(std::ostream& os)
     out_string_s(os, _fileMasks) << std::endl
         << "block-size: " << _blockSize << std::endl
         << "algorithm: " << (short)_hashAlgorithm << std::endl;
+}
+
+void CmdLineOptions::RemoveIncludeDirsThatContainsInExlude()
+{
+    _includedDirs.erase(
+        std::remove_if(
+            _includedDirs.begin(),
+            _includedDirs.end(),
+            [&_excludedDirs = this->_excludedDirs](const std::string& dir)
+            {
+                return std::find(_excludedDirs.begin(), _excludedDirs.end(), dir) != _excludedDirs.end();
+            }),
+        _includedDirs.end()
+    );
 }
 
 std::ostream& CmdLineOptions::out_string_s(std::ostream& os, string_s strs)
