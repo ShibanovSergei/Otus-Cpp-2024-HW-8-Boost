@@ -63,7 +63,7 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
         if (vm["algorithm"].as<std::string>() == "MD5")
             _hashAlgorithm = HashAlgorithm::MD5;
 
-        //ShowOptions(std::cout);
+        ShowOptions(std::cout);
 
         RemoveIncludeDirsThatContainsInExlude();
     }

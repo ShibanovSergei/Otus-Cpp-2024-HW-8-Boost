@@ -38,11 +38,11 @@ public:
 
     const string_s& includedDirs() const { return _includedDirs; }
     const string_s& excludedDirs() const { return _excludedDirs; }
-    ScanLevel scanLevel() const { return _scanLevel; }
-    unsigned minFileSize() const { return _minFileSize; }
+    bool  IsScanSubdirectories() const { return _scanLevel == ScanLevel::InSubDirectoriesAlso; }
+    unsigned getMinFileSize() const { return _minFileSize; }
     const string_s& fileMasks() const { return _fileMasks; }
-    unsigned blockSize() const { return _blockSize; }
-    HashAlgorithm hashAlgorithm() const { return _hashAlgorithm; }
+    unsigned getBlockSize() const { return _blockSize; }
+    HashAlgorithm getHashAlgorithm() const { return _hashAlgorithm; }
 };
 
 

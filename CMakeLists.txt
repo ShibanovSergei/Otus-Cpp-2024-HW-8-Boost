@@ -9,13 +9,25 @@ project(bayan VERSION ${PROJECT_VERSION})
 
 find_package(Boost REQUIRED COMPONENTS system filesystem program_options)
 
-add_executable (bayan "main.cpp" "main.h" "CmdLineOptions.cpp" "CmdLineOptions.h")
+add_executable (bayan 
+       "main.cpp" "main.h" 
+       "CmdLineOptions.cpp" "CmdLineOptions.h" 
+       "BlockHashGetter.cpp" 
+       "FileReader.h" "FileReader.cpp" 
+       "FilesDuplicatesSeacher.h" "FilesDuplicatesSeacher.cpp")
 
 set_target_properties(bayan PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
 )
-target_include_directories(bayan PRIVATE "${CMAKE_BINARY_DIR}")
+
+if (Boost_FOUND)
+    target_link_libraries(bayan PRIVATE 
+        Boost::system 
+        Boost::filesystem 
+        Boost::program_options
+    )
+endif()
 
 if (MSVC)
     target_compile_options(bayan PRIVATE
@@ -26,8 +38,6 @@ else ()
         -Wall -Wextra -pedantic
     )
 endif()
-
-target_link_libraries(bayan PRIVATE Boost::program_options)
 
 install(TARGETS bayan RUNTIME DESTINATION bin)
 

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <boost/crc.hpp>
@@ -5,12 +7,13 @@
 
 namespace BlockHashGetter
 {
-    constexpr uint8_t crc32_hash_len = 4;
-    constexpr uint8_t md5_hash_len = 16;
-
     using hashBytes = std::vector<uint8_t>;
+    using HashCalculationFunctionPtr = hashBytes(*)(const std::vector<uint8_t>&);
 
-    hashBytes Calculate_crc32(const std::vector<uint8_t>& dataBlock)
+    constexpr uint8_t crc32_hash_len = 4;
+    constexpr uint8_t md5_hash_len = 16;    
+
+    static hashBytes Calculate_crc32(const std::vector<uint8_t>& dataBlock)
     {
         boost::crc_32_type crc;
         crc.process_bytes(dataBlock.data(), dataBlock.size());
@@ -20,7 +23,7 @@ namespace BlockHashGetter
     }
 
     // Since we use the result to compare data blocks for equality, this implementation option will suit us.
-    hashBytes Calculate_md5(const std::vector<uint8_t>& dataBlock)
+    static hashBytes Calculate_md5(const std::vector<uint8_t>& dataBlock)
     {
         boost::uuids::detail::md5 md5;
         boost::uuids::detail::md5::digest_type digest;

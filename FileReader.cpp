@@ -1,6 +1,6 @@
 #include "FileReader.h"
 
-FileReader::FileReader(const std::string& path, unsigned blockSize, uintmax_t fileSize, HashCalculationFunctionPtr hashCalcPtr) :
+FileReader::FileReader(const std::string& path, unsigned blockSize, unsigned fileSize, BlockHashGetter::HashCalculationFunctionPtr hashCalcPtr) :
     _path(path)    
 {
     _fileSize = fileSize;
@@ -11,7 +11,7 @@ FileReader::FileReader(const std::string& path, unsigned blockSize, uintmax_t fi
 
 std::string FileReader::ShowInfo()
 {
-    return std::string(_path + "   " + _fileSize);
+    return std::string(_path + "   " + std::to_string(_fileSize));
 }
 
 void FileReader::ReadBlock()
@@ -21,7 +21,7 @@ void FileReader::ReadBlock()
         std::vector<uint8_t> buffer(_blockSize);
         _fileStream.read(reinterpret_cast<char*>(buffer.data()), _blockSize);
 
-        std::size_t bytesReadedNum = fileStream.gcount();
+        std::size_t bytesReadedNum = _fileStream.gcount();
 
         if (bytesReadedNum < _blockSize)
         {

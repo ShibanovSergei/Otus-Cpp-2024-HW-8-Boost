@@ -1,19 +1,16 @@
 #include <boost/filesystem.hpp>
 
 #include "FilesDuplicatesSeacher.h"
-#include "FileReader.h"
 #include "BlockHashGetter.cpp"
 
-
-namespace fs = boost::filesystem;
 
 list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 {
     vector<FileReader> files = getAllFiles(cmdLineOptions);
 
-    for (FileReader fr : files)
+    for (FileReader &fr : files)
     {
-        std::cout << fr.SowInfo() << std::endl;
+        cout << fr.ShowInfo() << endl;
     }
 
     return list<string_s>();
@@ -21,11 +18,11 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 
 vector<FileReader> FilesDuplicatesSeacher::getAllFiles(CmdLineOptions& cmdLineOptions)
 {
-    vector<FileReader> result;
+    std::vector<FileReader> result;
 
     SetParametersForSearchDuplicates(cmdLineOptions);
 
-    for (const string& dir : cmdLineOptions->includedDirs())
+    for (const string& dir : cmdLineOptions.includedDirs())
     {        
         const fs::path path = fs::path(dir);
 
@@ -47,7 +44,7 @@ void FilesDuplicatesSeacher::collectFiles(const fs::path& dir, vector<FileReader
         if (fs::is_directory(entry) && _scanSubdirectories)
         {
             bool isExcluded = false;
-            for (const auto& excludedDir : excludedDirs) {
+            for (const auto& excludedDir : _excludedDirs) {
                 if (fs::equivalent(entry.path(), fs::path(excludedDir))) 
                 {
                     isExcluded = true;
@@ -57,15 +54,16 @@ void FilesDuplicatesSeacher::collectFiles(const fs::path& dir, vector<FileReader
 
             if (!isExcluded) 
             {
-                collectFiles(entry.path(), excludedDirs, isNested, result);
+                collectFiles(entry.path(), result);
             }
         }
         else if (fs::is_regular_file(entry)) 
         {
-            uintmax_t fileSize = fs::file_size(entry);
+            unsigned fileSize = fs::file_size(entry);
             if (fileSize >= _minFileSize)
             {
-                result.push_back(new FileReader(entry.path().string(), _blockSize, fileSize, _hashFunc));
+                result.push_back(FileReader(entry.path().string(), _blockSize, fileSize, _hashFunc));
+                //FileReader(const std::string & path, unsigned blockSize, unsigned fileSize, BlockHashGetter::HashCalculationFunctionPtr hashCalcPtr) :
             }
         }
     }
@@ -74,19 +72,19 @@ void FilesDuplicatesSeacher::collectFiles(const fs::path& dir, vector<FileReader
 void FilesDuplicatesSeacher::SetParametersForSearchDuplicates(CmdLineOptions& cmdLineOptions)
 {
     _excludedDirs = cmdLineOptions.excludedDirs();
-    _scanSubdirectories = cmdLineOptions.scanLevel == ScanLevel.InSubDirectoriesAlso;
-    _minFileSize = cmdLineOptions.minFileSize;
+    _scanSubdirectories = cmdLineOptions.IsScanSubdirectories();
+    _minFileSize = cmdLineOptions.getMinFileSize();
     _fileMasks = cmdLineOptions.fileMasks();
-    _blockSize = cmdLineOptions.blockSize;
+    _blockSize = cmdLineOptions.getBlockSize();
 
-    switch (cmdLineOptions.hashAlgorithm)
+    switch (cmdLineOptions.getHashAlgorithm())
     {
-        case CRC32:
+        case HashAlgorithm::CRC32:
         default:
             _hashFunc = BlockHashGetter::Calculate_crc32;
             break;
 
-        case MD5:
+        case HashAlgorithm::MD5:
             _hashFunc = BlockHashGetter::Calculate_md5;
             break;
     };

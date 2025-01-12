@@ -13,18 +13,16 @@ private:
     std::ifstream   _fileStream;    
     unsigned        _blockSize;
     bool            _isFullyReaded;
-    uintmax_t       _fileSize;
+    unsigned        _fileSize;
 
     std::list<BlockHashGetter::hashBytes> _blocksHashes;
+    BlockHashGetter::HashCalculationFunctionPtr _hashCalculationFunc;
 
-    using HashCalculationFunctionPtr = hashBytes(*)(const std::vector<uint8_t>&);
-    HashCalculationFunctionPtr _hashCalculationFunc;
-
-    FileReader(const FileReader&) = delete;
-    FileReader& operator=(const FileReader&) = delete;
+    //FileReader(const FileReader&) = delete;
+    //FileReader& operator=(const FileReader&) = delete;
 
 public:
-    FileReader(const std::string& path, unsigned blockSize, uintmax_t fileSize, HashCalculationFunctionPtr hashCalcPtr);
+    FileReader(const std::string& path, unsigned blockSize, unsigned fileSize, BlockHashGetter::HashCalculationFunctionPtr hashCalcPtr);
     std::string ShowInfo();
 
     void ReadBlock();

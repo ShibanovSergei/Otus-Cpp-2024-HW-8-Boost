@@ -1,4 +1,5 @@
 ﻿#include "CmdLineOptions.h"
+#include "FilesDuplicatesSeacher.h"
 #include "BlockHashGetter.cpp"
 #include "main.h"
 
@@ -22,7 +23,8 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-
+	FilesDuplicatesSeacher seacher;	
+	seacher.Seach(cmdLineOptions);
 
 	return 0;
 }
