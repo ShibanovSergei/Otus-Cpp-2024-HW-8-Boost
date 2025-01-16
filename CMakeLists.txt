@@ -7,7 +7,7 @@ project(bayan VERSION ${PROJECT_VERSION})
 
 #configure_file(version.h.in version.h)
 
-find_package(Boost REQUIRED COMPONENTS system filesystem program_options)
+find_package(Boost 1.74.0 REQUIRED COMPONENTS system filesystem program_options)
 
 add_executable (bayan 
        "main.cpp" "main.h" 
