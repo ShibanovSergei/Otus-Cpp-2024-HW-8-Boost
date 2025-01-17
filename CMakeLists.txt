@@ -5,7 +5,7 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 project(bayan VERSION ${PROJECT_VERSION})
 
-find_package(Boost 1.74.0 REQUIRED COMPONENTS system filesystem program_options)
+find_package(Boost REQUIRED COMPONENTS system filesystem program_options)
 
 add_executable (bayan 
        "main.cpp" "main.h" 
@@ -25,7 +25,11 @@ if (Boost_FOUND)
         Boost::filesystem 
         Boost::program_options
     )
+    set(Boost_USE_STATIC_LIBS ON)  # switch on static linking
+else ()
+    message(FATAL_ERROR "Boost libraries not found. Please install Boost 1.74.0 or higher.")
 endif()
+
 
 if (MSVC)
     target_compile_options(bayan PRIVATE
