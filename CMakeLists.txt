@@ -5,8 +5,6 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 project(bayan VERSION ${PROJECT_VERSION})
 
-#configure_file(version.h.in version.h)
-
 find_package(Boost 1.74.0 REQUIRED COMPONENTS system filesystem program_options)
 
 add_executable (bayan 
@@ -41,10 +39,20 @@ endif()
 
 install(TARGETS bayan RUNTIME DESTINATION bin)
 
+# Setting up CPack
 set(CPACK_GENERATOR DEB)
-
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
-
 set(CPACK_PACKAGE_CONTACT example@example.com)
+set(CPACK_PACKAGE_NAME "bayan")
+set(CPACK_PACKAGE_DESCRIPTION "A tool for finding duplicate files.")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-system1.74.0, libboost-filesystem1.74.0, libboost-program-options1.74.0")
+
+# Including Boost libraries in a package (optional)
+get_target_property(BOOST_SYSTEM_LIB Boost::system LOCATION)
+get_target_property(BOOST_FILESYSTEM_LIB Boost::filesystem LOCATION)
+get_target_property(BOOST_PROGRAM_OPTIONS_LIB Boost::program_options LOCATION)
+
+install(FILES ${BOOST_SYSTEM_LIB} ${BOOST_FILESYSTEM_LIB} ${BOOST_PROGRAM_OPTIONS_LIB}
+        DESTINATION lib)
 
 include(CPack)
