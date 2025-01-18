@@ -1,5 +1,6 @@
 #include <vector>
 #include <list>
+#include <regex>
 #include <boost/filesystem.hpp>
 
 #include "CmdLineOptions.h"
@@ -24,11 +25,14 @@ class FilesDuplicatesSeacher
 	 string_s       _excludedDirs;
 	 bool			_scanSubdirectories;
 	 unsigned       _minFileSize;
-	 string_s       _fileMasks;
 	 unsigned       _blockSize;
+	 string_s       _regexsForFileMasks;
 
 	 BlockHashGetter::HashCalculationFunctionPtr  _hashFunc;
 	 // -----------------------------------
+
+	 std::string maskToRegex(const std::string& mask);	 
+	 bool isMatchToMask(const std::string& fileName) const;
 
 	 void SetParametersForSearchDuplicates(CmdLineOptions& cmdLineOptions);
 };

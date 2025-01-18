@@ -8,10 +8,10 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 {
     vector<FileReader> files = getAllFiles(cmdLineOptions);
 
-    for (FileReader &fr : files)
-    {
-        cout << fr.ShowInfo() << endl;
-    }
+    //for (FileReader &fr : files)
+    //{
+    //    cout << fr.ShowInfo() << endl;
+    //}
 
     return list<string_s>();
 }
@@ -60,13 +60,53 @@ void FilesDuplicatesSeacher::collectFiles(const fs::path& dir, vector<FileReader
         else if (fs::is_regular_file(entry)) 
         {
             unsigned fileSize = fs::file_size(entry);
-            if (fileSize >= _minFileSize)
+            std::string fileName = entry.path().string();
+            if (fileSize >= _minFileSize && isMatchToMask(fileName))
             {
-                result.push_back(FileReader(entry.path().string(), _blockSize, fileSize, _hashFunc));
-                //FileReader(const std::string & path, unsigned blockSize, unsigned fileSize, BlockHashGetter::HashCalculationFunctionPtr hashCalcPtr) :
+                result.push_back(FileReader(fileName, _blockSize, fileSize, _hashFunc));
             }
         }
     }
+}
+
+std::string FilesDuplicatesSeacher::maskToRegex(const std::string& mask)
+{
+    std::string regexPattern;
+    for (char ch : mask) 
+    {
+        switch (ch)
+        {
+            case '*':
+                regexPattern += ".*"; // Any number of any characters
+                break;
+            case '?':
+                regexPattern += ".";  // One any character
+                break;
+            case '.':
+                regexPattern += "\\."; // Point shielding
+                break;
+            default:
+                regexPattern += ch;   // Regular symbol
+                break;
+        }
+    }
+    return regexPattern;
+}
+
+bool FilesDuplicatesSeacher::isMatchToMask(const std::string& fileName) const
+{
+    if (_regexsForFileMasks.empty())
+        return true;
+
+    for (const std::string& regexPattern : _regexsForFileMasks)
+    {        
+        std::regex regex(regexPattern, std::regex_constants::icase); // Ignore case
+        if (std::regex_match(fileName, regex)) 
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 void FilesDuplicatesSeacher::SetParametersForSearchDuplicates(CmdLineOptions& cmdLineOptions)
@@ -74,9 +114,11 @@ void FilesDuplicatesSeacher::SetParametersForSearchDuplicates(CmdLineOptions& cm
     _excludedDirs = cmdLineOptions.excludedDirs();
     _scanSubdirectories = cmdLineOptions.IsScanSubdirectories();
     _minFileSize = cmdLineOptions.getMinFileSize();
-    _fileMasks = cmdLineOptions.fileMasks();
     _blockSize = cmdLineOptions.getBlockSize();
 
+    for (string mask : cmdLineOptions.fileMasks())
+        _regexsForFileMasks.push_back(maskToRegex(mask));
+    
     switch (cmdLineOptions.getHashAlgorithm())
     {
         case HashAlgorithm::CRC32:

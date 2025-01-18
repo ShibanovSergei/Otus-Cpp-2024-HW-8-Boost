@@ -24,7 +24,15 @@ int main(int argc, char** argv)
 	}
 
 	FilesDuplicatesSeacher seacher;	
-	seacher.Seach(cmdLineOptions);
+	list<string_s> foundedDuplicates = seacher.Seach(cmdLineOptions);
+
+	for (string_s &duplicates : foundedDuplicates)
+	{
+		for (string &fileName : duplicates)
+			cout << fileName << endl;
+
+		cout << endl;
+	}
 
 	return 0;
 }
