@@ -15,14 +15,36 @@ std::string FileReader::ShowInfo() const
     return std::string(_path + "   " + std::to_string(_fileSize));
 }
 
-bool FileReader::Compare(const FileReader& file)
+bool FileReader::Compare(FileReader& other)
 {
-    if (_fileSize != file.GetFileSize())
+    if (_fileSize != other._fileSize)
         return false;
 
+    auto it1 = _blocksHashes.begin();
+    auto it2 = other._blocksHashes.begin();
 
-
-    return true;
+    while (true) 
+    {
+        if (it1 == _blocksHashes.end()) {
+            ReadBlock();
+            it1 = std::prev(_blocksHashes.end());
+        }
+        if (it2 == other._blocksHashes.end()) {
+            other.ReadBlock();
+            it2 = std::prev(other._blocksHashes.end());
+        }
+        
+        if (*it1 != *it2) {
+            return false;
+        }
+        
+        if (_isFullyReaded && other._isFullyReaded) {
+            return true;
+        }
+        
+        ++it1;
+        ++it2;
+    }
 }
 
 void FileReader::ReadBlock()

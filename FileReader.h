@@ -10,7 +10,7 @@ struct FileReader
 {
 private:
     std::string     _path;
-    std::ifstream   _fileStream;    
+    std::ifstream   _fileStream;
     unsigned        _blockSize;
     bool            _isFullyReaded;
     unsigned        _fileSize;
@@ -28,7 +28,6 @@ public:
     FileReader(const std::string& path, unsigned blockSize, unsigned fileSize, BlockHashGetter::HashCalculationFunctionPtr hashCalcPtr);
     std::string ShowInfo() const;
     std::string GetPath() const { return _path; }
-    unsigned GetFileSize() const { return _fileSize; }
 
-    bool Compare(const FileReader& file);
+    bool Compare(FileReader& other);
 };
