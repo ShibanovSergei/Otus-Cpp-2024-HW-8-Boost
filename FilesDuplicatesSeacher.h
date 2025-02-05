@@ -16,9 +16,8 @@ class FilesDuplicatesSeacher
 	list<string_s> Seach(CmdLineOptions& cmdLineOptions);
 
  private:
-	 vector<FileReader> getAllFiles(CmdLineOptions& cmdLineOptions);
-	 void collectFiles(const fs::path& dir, vector<FileReader>& result);
-	 //void ShowResults();
+	 list<FileReader> getAllFiles(CmdLineOptions& cmdLineOptions);
+	 void collectFiles(const fs::path& dir, list<FileReader>& result);
 
 	 // Parameters for searching files. 
 	 // Not used as parameters of the collectFiles function, for better performance (for recursive calls for nested directories)

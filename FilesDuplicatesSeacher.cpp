@@ -6,19 +6,60 @@
 
 list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 {
-    vector<FileReader> files = getAllFiles(cmdLineOptions);
+    list<FileReader> files = getAllFiles(cmdLineOptions);
 
-    //for (FileReader &fr : files)
-    //{
-    //    cout << fr.ShowInfo() << endl;
-    //}
+    list<string_s> result;
 
-    return list<string_s>();
+    unsigned n = 1;
+    auto curIt = files.begin();
+    
+    while (curIt != files.end())
+    {
+        while (curIt->groupNumber != 0)
+        {
+            curIt++;
+            if (curIt == files.end()) break;
+        }
+
+        curIt->groupNumber = n;
+        auto fileIt = curIt;
+        for (fileIt++; fileIt != files.end(); fileIt++)
+        {
+            if (curIt->Compare(*fileIt))
+            {
+                fileIt->groupNumber = n;
+            }
+        }
+
+        curIt++;
+        n++;
+    }
+
+    for (unsigned i = 0; i <= n; i++)
+    {
+        string_s group;
+
+        for (auto fileIt = files.begin(); fileIt != files.end(); fileIt++)
+        {
+            if (fileIt->groupNumber == n)
+            {
+                group.push_back(fileIt->GetPath());
+            }
+        }
+
+        if (group.size() > 1)
+        {
+            group.push_back("");
+            result.push_back(group);
+        }
+    }
+
+    return std::move(result);
 }
 
-vector<FileReader> FilesDuplicatesSeacher::getAllFiles(CmdLineOptions& cmdLineOptions)
+list<FileReader> FilesDuplicatesSeacher::getAllFiles(CmdLineOptions& cmdLineOptions)
 {
-    std::vector<FileReader> result;
+    std::list<FileReader> result;
 
     SetParametersForSearchDuplicates(cmdLineOptions);
 
@@ -32,7 +73,7 @@ vector<FileReader> FilesDuplicatesSeacher::getAllFiles(CmdLineOptions& cmdLineOp
     return result;
 }
 
-void FilesDuplicatesSeacher::collectFiles(const fs::path& dir, vector<FileReader>& result)
+void FilesDuplicatesSeacher::collectFiles(const fs::path& dir, list<FileReader>& result)
 {
     if (!fs::exists(dir) || !fs::is_directory(dir))
     {

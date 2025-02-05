@@ -18,12 +18,17 @@ private:
     std::list<BlockHashGetter::hashBytes> _blocksHashes;
     BlockHashGetter::HashCalculationFunctionPtr _hashCalculationFunc;
 
+    void ReadBlock();
+
     //FileReader(const FileReader&) = delete;
     //FileReader& operator=(const FileReader&) = delete;
 
 public:
+    unsigned groupNumber;
     FileReader(const std::string& path, unsigned blockSize, unsigned fileSize, BlockHashGetter::HashCalculationFunctionPtr hashCalcPtr);
-    std::string ShowInfo();
+    std::string ShowInfo() const;
+    std::string GetPath() const { return _path; }
+    unsigned GetFileSize() const { return _fileSize; }
 
-    void ReadBlock();
+    bool Compare(const FileReader& file);
 };

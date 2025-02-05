@@ -7,11 +7,22 @@ FileReader::FileReader(const std::string& path, unsigned blockSize, unsigned fil
     _blockSize = blockSize;
     _isFullyReaded = false;
     _hashCalculationFunc = hashCalcPtr;
+    groupNumber = 0;
 }
 
-std::string FileReader::ShowInfo()
+std::string FileReader::ShowInfo() const
 {
     return std::string(_path + "   " + std::to_string(_fileSize));
+}
+
+bool FileReader::Compare(const FileReader& file)
+{
+    if (_fileSize != file.GetFileSize())
+        return false;
+
+
+
+    return true;
 }
 
 void FileReader::ReadBlock()
