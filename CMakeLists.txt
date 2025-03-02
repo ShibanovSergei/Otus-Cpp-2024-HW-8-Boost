@@ -5,7 +5,7 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 
 project(bayan VERSION ${PROJECT_VERSION})
 
-find_package(Boost REQUIRED COMPONENTS system filesystem program_options)
+find_package(Boost 1.74.0 REQUIRED COMPONENTS system filesystem program_options)
 
 add_executable (bayan 
        "main.cpp" "main.h" 
@@ -25,7 +25,8 @@ if (Boost_FOUND)
         Boost::filesystem 
         Boost::program_options
     )
-    set(Boost_USE_STATIC_LIBS ON)  # switch on static linking
+    #set(Boost_USE_STATIC_LIBS ON)  # switch on static linking
+
 else ()
     message(FATAL_ERROR "Boost libraries not found. Please install Boost 1.74.0 or higher.")
 endif()
@@ -52,9 +53,9 @@ set(CPACK_PACKAGE_DESCRIPTION "A tool for finding duplicate files.")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-system1.74.0, libboost-filesystem1.74.0, libboost-program-options1.74.0")
 
 # Including Boost libraries in a package (optional)
-get_target_property(BOOST_SYSTEM_LIB Boost::system LOCATION)
-get_target_property(BOOST_FILESYSTEM_LIB Boost::filesystem LOCATION)
-get_target_property(BOOST_PROGRAM_OPTIONS_LIB Boost::program_options LOCATION)
+#get_target_property(BOOST_SYSTEM_LIB Boost::system LOCATION)
+#get_target_property(BOOST_FILESYSTEM_LIB Boost::filesystem LOCATION)
+#get_target_property(BOOST_PROGRAM_OPTIONS_LIB Boost::program_options LOCATION)
 
 install(FILES ${BOOST_SYSTEM_LIB} ${BOOST_FILESYSTEM_LIB} ${BOOST_PROGRAM_OPTIONS_LIB}
         DESTINATION lib)
