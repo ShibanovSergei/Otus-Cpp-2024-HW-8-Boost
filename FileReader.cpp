@@ -15,6 +15,13 @@ FileReader::FileReader(const std::string& path, unsigned blockSize, unsigned fil
     }
 }
 
+FileReader::~FileReader()
+{
+    if (_fileStream.is_open()) {
+        _fileStream.close();
+    }
+}
+
 std::string FileReader::ShowInfo() const
 {
     return std::string(_path + "   " + std::to_string(_fileSize));
@@ -64,7 +71,7 @@ void FileReader::ReadBlock()
         if (bytesReadedNum < _blockSize)
         {
             std::fill(buffer.begin() + bytesReadedNum, buffer.end(), '\0');
-            return;
+            _isFullyReaded = true;
         }
 
         _blocksHashes.push_back(_hashCalculationFunc(buffer));

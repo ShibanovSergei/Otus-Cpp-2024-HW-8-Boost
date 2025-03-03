@@ -26,6 +26,7 @@ private:
 public:
     unsigned groupNumber;
     FileReader(const std::string& path, unsigned blockSize, unsigned fileSize, BlockHashGetter::HashCalculationFunctionPtr hashCalcPtr);
+    ~FileReader();
     std::string ShowInfo() const;
     std::string GetPath() const { return _path; }
 
