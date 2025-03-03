@@ -8,12 +8,6 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 {
     list<FileReader> files = getAllFiles(cmdLineOptions);
 
-    cout << "Files from: list<FileReader> files" << endl;
-    for (auto& f : files)
-    {
-        cout << f.GetPath() << endl;
-    }
-
     list<string_s> result;
 
     unsigned n = 1;
@@ -39,6 +33,12 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 
         curIt++;
         n++;
+    }
+
+    cout << "Files from: list<FileReader> files" << endl;
+    for (auto& f : files)
+    {
+        cout << f.GetPath() << "  groupNumber: " << f.groupNumber << endl;
     }
 
     for (unsigned i = 0; i <= n; i++)
