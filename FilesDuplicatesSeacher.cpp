@@ -27,6 +27,7 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
         {
             if (curIt->Compare(*fileIt))
             {
+                cout << "Compare true for: " << curIt.GetPath() << "  \n and: " << fileIt.GetPath() << endl;
                 fileIt->groupNumber = n;
             }
         }
@@ -35,11 +36,11 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
         n++;
     }
 
-    cout << "Files from: list<FileReader> files" << endl;
-    for (auto& f : files)
-    {
-        cout << f.GetPath() << "  groupNumber: " << f.groupNumber << endl;
-    }
+    //cout << "Files from: list<FileReader> files" << endl;
+    //for (auto& f : files)
+    //{
+    //    cout << f.GetPath() << "  groupNumber: " << f.groupNumber << endl;
+    //}
 
     for (unsigned i = 0; i <= n; i++)
     {
