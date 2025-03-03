@@ -15,13 +15,6 @@ FileReader::FileReader(const std::string& path, unsigned blockSize, unsigned fil
     }
 }
 
-FileReader::~FileReader()
-{
-    if (_fileStream.is_open()) {
-        _fileStream.close();
-    }
-}
-
 std::string FileReader::ShowInfo() const
 {
     return std::string(_path + "   " + std::to_string(_fileSize));
