@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	list<string_s> foundedDuplicates = seacher.Seach(cmdLineOptions);
 
 	if (foundedDuplicates.size() == 0)
-		cout << "cmdLineOptions.FillFromArgs return false." << endl;
+		cout << "Duplicates not founded" << endl;
 	else
 	{
 		for (const string_s& duplicates : foundedDuplicates)

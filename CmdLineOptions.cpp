@@ -45,7 +45,6 @@ bool CmdLineOptions::FillFromArgs(int argc, char** argv)
 
         if (vm.count("help")) {
             std::cout << desc << std::endl;
-            return false;
         }
 
         _includedDirs = vm["include-dirs"].as<string_s>();
