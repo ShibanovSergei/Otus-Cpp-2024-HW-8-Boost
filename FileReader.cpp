@@ -19,8 +19,6 @@ bool FileReader::Compare(FileReader& other)
 {
     if (_fileSize != other._fileSize)
         return false;
-    else
-        return true;
 
     auto it1 = _blocksHashes.begin();
     auto it2 = other._blocksHashes.begin();

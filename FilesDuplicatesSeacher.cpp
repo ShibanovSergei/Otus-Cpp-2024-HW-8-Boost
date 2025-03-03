@@ -8,6 +8,12 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 {
     list<FileReader> files = getAllFiles(cmdLineOptions);
 
+    cout << "Files from: list<FileReader> files" << endl;
+    for (auto& f : files)
+    {
+        cout << f.ShowInfo() << endl;
+    }
+
     list<string_s> result;
 
     unsigned n = 1;
