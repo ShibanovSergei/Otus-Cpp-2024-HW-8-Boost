@@ -27,7 +27,7 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
         {
             if (curIt->Compare(*fileIt))
             {
-                cout << "Compare true for: " << curIt.GetPath() << "  \n and: " << fileIt.GetPath() << endl;
+                cout << "Compare true for: " << curIt->GetPath() << "  \n and: " << fileIt->GetPath() << endl;
                 fileIt->groupNumber = n;
             }
         }
