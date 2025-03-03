@@ -8,6 +8,11 @@ FileReader::FileReader(const std::string& path, unsigned blockSize, unsigned fil
     _isFullyReaded = false;
     _hashCalculationFunc = hashCalcPtr;
     groupNumber = 0;
+
+    _fileStream.open(_path, std::ios::binary);
+    if (!_fileStream.is_open()) {
+        throw std::runtime_error("Failed to open file: " + _path);
+    }
 }
 
 std::string FileReader::ShowInfo() const
