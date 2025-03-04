@@ -52,30 +52,25 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 
         for (auto fileIt = files.begin(); fileIt != files.end(); fileIt++)
         {
-            if (fileIt->groupNumber != 0)
-            {
-                group.push_back(fileIt->GetPath());
-                cout << "  groupNumber: " << fileIt->groupNumber << "     for:  " << fileIt->GetPath() << endl;
-            }
-/*
             if (fileIt->groupNumber == n)
             {
                 group.push_back(fileIt->GetPath());
+                cout << "Pushed to group.  groupNumber: " << fileIt->groupNumber << "     for:  " << fileIt->GetPath() << endl;
             }
+        }
 
-            if (group.size() > 1)
+        cout << endl << "for n: " << n << "  group size:  " << group.size() << endl;
+        if (group.size() > 1)
+        {
+            cout << "group for n: " << n << endl;
+            for (int gr = 0; i < group.size(); gr++)
             {
-                cout << "group for n: " << n << endl;
-                for (int gr = 0; i < group.size(); gr++)
-                {
-                    //for (auto grIt = group.begin(); grIt != group.end(); grIt++)
-                    cout << group.at(i) << endl;
-                }
-
-                group.push_back("");
-                result.push_back(group);
+                //for (auto grIt = group.begin(); grIt != group.end(); grIt++)
+                cout << group.at(i) << endl;
             }
-*/
+
+            group.push_back("");
+            result.push_back(group);
         }
     }
 
