@@ -50,9 +50,9 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
     {
         string_s group;
 
-        for (auto fileIt = files.begin(); fileIt != files.end(); fileIt++)
+        for (auto& fileIt : files)
         {
-            if (fileIt->groupNumber == n)
+            if (fileIt->groupNumber == i)
             {
                 group.push_back(fileIt->GetPath());
                 cout << "Pushed to group.  groupNumber: " << fileIt->groupNumber << "     for:  " << fileIt->GetPath() << endl;
