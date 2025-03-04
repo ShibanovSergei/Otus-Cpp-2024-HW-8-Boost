@@ -24,7 +24,12 @@ bool FileReader::Compare(FileReader& other)
 {
     if (_fileSize != other._fileSize)
         return false;
-
+    else
+    {
+        std::cout << "_fileSize(s) equal for" << ShowInfo() << "  and  " << other.ShowInfo() << std::endl;
+        return true;
+    }
+/*
     auto it1 = _blocksHashes.begin();
     auto it2 = other._blocksHashes.begin();
 
@@ -50,6 +55,7 @@ bool FileReader::Compare(FileReader& other)
         ++it1;
         ++it2;
     }
+*/
 }
 
 void FileReader::ReadBlock()
