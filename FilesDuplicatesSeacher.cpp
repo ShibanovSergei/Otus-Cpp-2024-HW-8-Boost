@@ -8,12 +8,6 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 {
     list<FileReader> files = getAllFiles(cmdLineOptions);
 
-    cout << "Files from: list<FileReader> files" << endl;
-    for (auto& f : files)
-    {
-        cout << f.ShowInfo() << endl;
-    }
-
     list<string_s> result;
 
     unsigned n = 1;
@@ -24,29 +18,32 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
         while (curIt->groupNumber != 0)
         {
             curIt++;
-            if (curIt == files.end()) break;
+            continue;
         }
 
-        curIt->groupNumber = n;
         auto fileIt = curIt;
-        for (fileIt++; fileIt != files.end(); fileIt++)
+        fileIt++;
+
+        while (fileIt != files.end())
         {
-            if (curIt->Compare(*fileIt))
+            if (fileIt->groupNumber == 0 && curIt->Compare(*fileIt))
             {
                 cout << "Compare true for: " << curIt->GetPath() << "  \n and: " << fileIt->GetPath() << endl;
                 fileIt->groupNumber = n;
+                curIt->groupNumber = n;
             }
+            fileIt++;
         }
 
         curIt++;
         n++;
     }
 
-    //cout << "Files from: list<FileReader> files" << endl;
-    //for (auto& f : files)
-    //{
-    //    cout << f.GetPath() << "  groupNumber: " << f.groupNumber << endl;
-    //}
+    cout << "Files from: list<FileReader> files" << endl;
+    for (auto& f : files)
+    {
+        cout << f.GetPath() << "  groupNumber: " << f.groupNumber << endl;
+    }
 
     for (unsigned i = 0; i <= n; i++)
     {
