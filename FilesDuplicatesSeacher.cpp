@@ -38,37 +38,22 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
         n++;
     }
 
-    cout << "Files from: list<FileReader> files" << endl;
-    for (auto& f : files)
-    {
-        cout << f.GetPath() << "  groupNumber: " << f.groupNumber << endl;
-    }
-
-
-    cout << endl << endl << "  Groups: " << endl;
     for (unsigned i = 1; i <= n; i++)
     {
         string_s group;
 
-        for (auto fileIt = files.begin(); fileIt != files.end(); fileIt++)
+        for (auto& fileIt : files)
         {
-            if (fileIt->groupNumber == n)
+            if (fileIt.groupNumber == i)
             {
-                group.push_back(fileIt->GetPath());
+                group.push_back(fileIt.GetPath());
             }
+        }
 
-            if (group.size() > 1)
-            {
-                cout << "group for n: " << n << endl;
-                for (int gr = 0; i < group.size(); gr++)
-                {
-                    //for (auto grIt = group.begin(); grIt != group.end(); grIt++)
-                    cout << group.at(i) << endl;
-                }
-
-                group.push_back("");
-                result.push_back(group);
-            }
+        if (group.size() > 1)
+        {
+            group.push_back("");
+            result.push_back(group);
         }
     }
 
