@@ -52,10 +52,10 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
 
         for (auto& fileIt : files)
         {
-            if (fileIt->groupNumber == i)
+            if (fileIt.groupNumber == i)
             {
-                group.push_back(fileIt->GetPath());
-                cout << "Pushed to group.  groupNumber: " << fileIt->groupNumber << "     for:  " << fileIt->GetPath() << endl;
+                group.push_back(fileIt.GetPath());
+                cout << "Pushed to group.  groupNumber: " << fileIt.groupNumber << "     for:  " << fileIt.GetPath() << endl;
             }
         }
 
