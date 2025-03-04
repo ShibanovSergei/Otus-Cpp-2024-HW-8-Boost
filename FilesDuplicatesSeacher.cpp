@@ -45,13 +45,19 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
     }
 
 
-    cout << endl << endl << "  Groups: " << endl;
+    cout << endl << endl << "  Groups, n is: " << n << endl;
     for (unsigned i = 1; i <= n; i++)
     {
         string_s group;
 
         for (auto fileIt = files.begin(); fileIt != files.end(); fileIt++)
         {
+            if (fileIt->groupNumber != 0)
+            {
+                group.push_back(fileIt->GetPath());
+                cout << "  groupNumber: " << fileIt->groupNumber << "     for:  " << fileIt->GetPath() << endl;
+            }
+/*
             if (fileIt->groupNumber == n)
             {
                 group.push_back(fileIt->GetPath());
@@ -69,6 +75,7 @@ list<string_s> FilesDuplicatesSeacher::Seach(CmdLineOptions& cmdLineOptions)
                 group.push_back("");
                 result.push_back(group);
             }
+*/
         }
     }
 
